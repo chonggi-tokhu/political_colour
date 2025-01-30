@@ -225,10 +225,6 @@
 
 <body>
     <div class="political_colour">
-        <div class="background" tabindex="0">
-            <img src="./files/img/공산당.png" width="360">
-            <img src="./files/img/멸공.png" width="360">
-        </div>
         <div class="audio_test">
             <a href="javascript:document.querySelectorAll('audio.audio').forEach((el,idx,par)=>{ (el.classList.contains('left_aud'))?el.currentTime=8.75:(el.classList.contains('right_aud'))?el.currnetTime=5.50:{}; el.paused?el.play():el.pause(); });"
                 onclick=" left_audio.currentTime=8.75; right_audio.currentTime=5.50; ">노래 각각 시작</a>
@@ -334,38 +330,6 @@
             right_audio.currentTime = 5.50;
             var side_before = getComputedStyle(side, "::before");
             var side_before = getComputedStyle(side, "::before");
-            document.body.querySelector('.political_colour .background').focus();
-            document.body.querySelector('.political_colour .background').addEventListener("keydown", (ev) => {
-                /* fetch("https://www.google.com", {}).then((data) => {
-                    starting_funcs?.forEach((val, idx, arr) => {
-                        if (typeof arr[idx] === 'function') {
-                            arr[idx](gthis1);
-                            console.log(idx);
-                        }
-                    });
-                }).catch((err) => {
-                    starting_funcs?.forEach((val, idx, arr) => {
-                        if (typeof arr[idx] === 'function') {
-                            arr[idx](gthis1);
-                            console.log(idx);
-                        }
-                    });
-                }).finally(() => {
-                    starting_funcs?.forEach((val, idx, arr) => {
-                        if (typeof arr[idx] === 'function') {
-                            arr[idx](gthis1);
-                            console.log(idx);
-                        }
-                    });
-                }); */
-
-                starting_funcs?.forEach((val, idx, arr) => {
-                    if (typeof arr[idx] === 'function') {
-                        arr[idx](gthis1);
-                        console.log(idx);
-                    }
-                });
-            });
         });
     </script>
     <svg onload="
