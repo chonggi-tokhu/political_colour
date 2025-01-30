@@ -86,6 +86,31 @@
         img_data_obj.file_reading_promises = file_reading_promises;
         img_data_obj.img_reading_promises = img_reading_promises;
         img_data_obj.upload_input.addEventListener("change", (ev) => {
+            file_reading_promises = Array.from(upload_input.files).map((val, idx, arr) => {
+                return (cbfunc) => {
+                    return new Promise((resolve, reject) => {
+                        var reader = new FileReader();
+                        var one_of_mylis = (() => { var new_imgli = document.createElement("li"); var imgli = imgs_list.appendChild(new_imgli); return imgli; })();
+                        var one_of_myimgs = (() => { var new_img = new Image(); return one_of_mylis.appendChild(new_img); })();
+                        reader.onload = (ev) => {
+                            one_of_myimgs.src = reader.result;
+                            exif.getData(myimg, function () {
+                                var allMetadata = exif.getAllTags(this);
+                                var new_datali = document.createElement("li");
+                                var datali = list.appendChild(new_datali);
+                                var thispre = datali.appendChild(document.createElement("pre"));
+                                var thisspan = thispre.appendChild(document.createElement("span"));
+                                img_data_obj.img_data_els.push(datali);
+                                thisspan.innerHTML = JSON.stringify(allMetadata);
+                                resolve(allMetadata, one_of_myimgs);
+                            });
+                            img_data_obj.imgs.push(one_of_myimgs);
+                        };
+                        reader.readAsDataURL(new Blob([val], { type: val.type }))
+                    }).then(cbfunc);
+                }
+            });
+            img_data_obj.file_reading_promises = file_reading_promises;
             img_data_obj.file_reading_promises.forEach((val, idx, arr) => {
                 arr[idx]((data, thisimgel) => {
                     img_data_obj.data.push({ el: thisimgel, data: data });
