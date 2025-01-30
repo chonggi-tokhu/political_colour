@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>새로운 개발은 아니고 개인적으로 필요해서 하는것.</title>
+</head>
+
+<body>
+    <div id="upload_div">
+        <img src="./files/img/img0.jpg" width="360" id="myimg">
+        <button id="getall">이미지 메타데이터 다 털기</button>
+        <input type="file" id="upload_file">
+        <ul id="imgs_list"></ul>
+        <ul id="list"></ul>
+    </div>
+    <script src="./files/js/exif.js"></script>
+    <script>
+        var img_data_obj = { upload_div: HTMLDivElement.prototype, exif: null, myimg: Image.prototype, myimgs: Array.prototype, upload_input: HTMLInputElement.prototype, list: HTMLUListElement.prototype, imgs_list: HTMLUListElement.prototype, file_reading_promises: [], img_reading_promises: [], img_data_els: [], imgs: [], data: [] };
+        var upload_div = document.getElementById("upload_div");
+        if (upload_div === null) {
+            upload_div = (() => { var new_uploaddiv = document.createElement("div"); new_uploaddiv.id = "upload_div"; return document.body.appendChild(upload_div); })();
+        }
+        var exif = typeof window['EXIF'] === "function" ? window['EXIF'] : false;
+        var myimg = Array.from(upload_div.getElementsByTagName("img")).find((val, idx, arr) => val.id === 'myimg') || upload_div.querySelector('img.myimg');
+        myimg = myimg && myimg !== null ? myimg : (() => { var new_image = new Image(360); new_image.src = "./files/img/img0.jpg"; return upload_div.body.appendChild(new_image); })();
+        var myimgs = Array.from(upload_div.getElementsByTagName("img"));
+        var upload_input = Array.from(upload_div.getElementsByTagName("input")).find((val, idx, arr) => val.id === 'upload_file');
+        var list = Array.from(upload_div.getElementsByTagName("ul")).find((val, idx, arr) => val.id === 'list');
+        if (!list) {
+            list = (() => { var new_listul = document.createElement("ul"); new_listul.id = "list"; return upload_div.appendChild(new_listul); })();
+        }
+        var imgs_list = Array.from(upload_div.getElementsByTagName("ul")).find((val, idx, arr) => val.id === 'imgs_list');
+        if (!imgs_list) {
+            imgs_list = (() => { var new_listul = document.createElement("ul"); new_listul.id = "imgs_list"; return upload_div.appendChild(new_listul); })();
+        }
+        upload_input = upload_input && upload_input.type === 'file' ? upload_input : (() => { var new_fileinp = document.createElement("input"); new_fileinp.type = 'file'; return upload_div.appendChild(new_fileinp); })();
+        var file_reading_promises = Array.from(upload_input.files).map((val, idx, arr) => {
+            return (cbfunc) => {
+                return new Promise((resolve, reject) => {
+                    var reader = new FileReader();
+                    var one_of_mylis = (() => { var new_imgli = document.createElement("li"); var imgli = imgs_list.appendChild(new_imgli); return imgli; })();
+                    var one_of_myimgs = (() => { var new_img = new Image(); return one_of_mylis.appendChild(new_img); })();
+                    reader.onload = (ev) => {
+                        one_of_myimgs.src = reader.result;
+                        exif.getData(myimg, function () {
+                            var allMetadata = exif.getAllTags(this);
+                            var new_datali = document.createElement("li");
+                            var datali = list.appendChild(new_datali);
+                            var thispre = datali.appendChild(document.createElement("pre"));
+                            var thisspan = thispre.appendChild(document.createElement("span"));
+                            img_data_obj.img_data_els.push(datali);
+                            thisspan.innerHTML = allMetadata;
+                            resolve(allMetadata, one_of_myimgs);
+                        });
+                        img_data_obj.imgs.push(one_of_myimgs);
+                    };
+                    reader.readAsDataURL(new Blob([val], { type: val.type }))
+                }).then(cbfunc);
+            }
+        });
+        img_data_obj['upload_div'] = upload_div;
+        img_data_obj.exif = exif;
+        img_data_obj.myimg = myimg;
+        img_data_obj.myimgs = myimgs;
+        img_data_obj.upload_input = upload_input;
+        img_data_obj.list = list;
+        img_data_obj.imgs_list = imgs_list;
+        var img_reading_promises = Array.from(upload_div.getElementsByTagName("img")).map((val, idx, arr) => {
+            return (cbfunc) => {
+                return new Promise((resolve, reject) => {
+                    exif.getData(val, function () {
+                        var allMetadata = exif.getAllTags(this);
+                        var new_datali = document.createElement("li");
+                        var datali = list.appendChild(new_datali);
+                        var thispre = datali.appendChild(document.createElement("pre"));
+                        var thisspan = thispre.appendChild(document.createElement("span"));
+                        img_data_obj.img_data_els.push(datali);
+                        thisspan.innerHTML = allMetadata;
+                        resolve(allMetadata);
+                    });
+                }).then(cbfunc);
+            }
+        });
+        img_data_obj.file_reading_promises = file_reading_promises;
+        img_data_obj.img_reading_promises = img_reading_promises;
+        img_data_obj.upload_input.addEventListener("change", (ev) => {
+            img_data_obj.file_reading_promises.forEach((val, idx, arr) => {
+                arr[idx]((data, thisimgel) => {
+                    img_data_obj.data.push({ el: thisimgel, data: data });
+                });
+            });
+        });
+        Array.from(img_data_obj.upload_div.getElementsByTagName("button")).find((val_1, idx_1, arr_1) => val_1.id === "getall")?.addEventListener("click", (ev) => {
+            img_data_obj.img_reading_promises.forEach((val, idx, arr) => {
+                arr[idx]((data) => {
+                    img_data_obj.data.push({ el: img_data_obj.myimgs[idx], data: data });
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
