@@ -153,9 +153,9 @@
                 onclick=" left_audio.currentTime=8.75; right_audio.currentTime=5.50; ">노래 각각 시작</a>
             <br>
             <audio autoplay="autoplay" onplay="this.currentTime=8.75;" src="./files/audio/소련.mp3" style="display:none;"
-                class="left_aud audio" onloadeddata="this.currentTime=8.75;" loop></audio>
+                class="left_aud audio" onloadeddata="this.currentTime=8.75;" loop="loop"></audio>
             <audio autoplay="autoplay" onplay="this.currentTime=5.50;" src="./files/audio/멸공.mp3" style="display:none;"
-                class="right_aud audio" onloadeddata="this.currentTime=5.50;" loop></audio>
+                class="right_aud audio" onloadeddata="this.currentTime=5.50;" loop="loop"></audio>
             <a href="javascript:left_audio.paused?left_audio.play():left_audio.pause();">재생</a> <input
                 style="width:16rem;height:1em;" colour-style="
                 --track-bgcolour:linear-gradient(to right,darkred,red,grey,blue,darkblue);
@@ -163,7 +163,91 @@
             <a href="javascript:right_audio.paused?right_audio.play():right_audio.pause();" value="0">재생</a>
         </div>
     </div>
-    <script> var side = document.querySelector(".side"); var left_audio = document.querySelector('.left_aud'); var right_audio = document.querySelector('.right_aud'); var sidefunc = () => { var side_value = Number(side.value); left_audio.volume = side_value * -1 / 100 + 0.5; var bgimgs = document.querySelectorAll('.background img'); bgimgs[0].style.opacity = side_value * -1 / 100 + 0.5; bgimgs[1].style.opacity = side_value / 100 + 0.5; right_audio.volume = side_value / 100 + 0.5; }; side.addEventListener("change", sidefunc); side.addEventListener("dragover", sidefunc); side.ondragging = false; side.addEventListener("touchstart", () => { side.ondragging = true }); side.addEventListener("touchmove", () => { if (side.ondragging) { sidefunc(); } }); side.addEventListener("touchend", () => { side.ondragging = false; }); side.addEventListener("mousedown", () => { side.ondragging = true }); side.addEventListener("mousemove", () => { if (side.ondragging) { sidefunc(); } }); document.body.addEventListener("mouseup", () => { side.ondragging = false; }); left_audio.onplay = function () { this.currentTime = 8.75; }; right_audio.onplay = function () { this.currentTime = 5.50; }; left_audio.onloadeddata = function () { this.currentTime = 8.75; console.log(this.currentTime); }; right_audio.onloadeddata = function () { this.currentTime = 5.50; console.log(this.currentTime); }; left_audio.currentTime = 8.75; right_audio.currentTime = 5.50;   /* left_audio.oncanplay=function(){  this.currentTime=8.75;  };  right_audio.oncanplay=function(){  this.currentTime=5.50; }; */ var gthis0 = this || window; gthis0['starting_funcs'] = [() => { if (!(window['left_audio'] instanceof HTMLElement)) { window['left_audio'] = document.querySelector('.left_aud'); } if (!(window['right_audio'] instanceof HTMLElement)) { window['right_audio'] = document.querySelector('.right_aud'); } }, () => { left_audio.currentTime = 8.75; right_audio.currentTime = 5.50; }]; var starting_funcs = [() => { if (!(window['left_audio'] instanceof HTMLElement)) { window['left_audio'] = document.querySelector('.left_aud'); } if (!(window['right_audio'] instanceof HTMLElement)) { window['right_audio'] = document.querySelector('.right_aud'); } }, (gthisparam) => { if (!(gthisparam['left_audio'] instanceof HTMLElement)) { gthisparam['left_audio'] = left_audio; console.log(`set global variable 'left_audio' again`); }; if (!(gthisparam['right_audio'] instanceof HTMLElement)) { gthisparam['right_audio'] = right_audio; console.log(`set global variable 'right_audio' again`); }; gthisparam['left_audio'].currentTime = 8.75; gthisparam['right_audio'].currentTime = 5.50; console.log(gthisparam['left_audio'].currentTime); /* gthisparam['left_audio']?.paused ?  gthisparam['left_audio']?.play():{};  gthisparam['right_audio']?.paused ? gthisparam['right_audio']?.play():{}; */ }]; document.addEventListener("DOMContentLoaded", (ev) => { left_audio.currentTime = 8.75; right_audio.currentTime = 5.50; var side_before = getComputedStyle(side, "::before"); var side_before = getComputedStyle(side, "::before"); });</script>
+    <script>
+        var side = document.querySelector(".side");
+        var left_audio = document.querySelector('.left_aud');
+        var right_audio = document.querySelector('.right_aud');
+        var sidefunc = () => {
+            var side_value = Number(side.value);
+            left_audio.volume = side_value * -1 / 100 + 0.5;
+            var bgimgs = document.querySelectorAll('.background img');
+            bgimgs[0].style.opacity = side_value * -1 / 100 + 0.5;
+            bgimgs[1].style.opacity = side_value / 100 + 0.5;
+            right_audio.volume = side_value / 100 + 0.5;
+        };
+        side.addEventListener("change", sidefunc);
+        side.addEventListener("dragover", sidefunc);
+        side.ondragging = false;
+        side.addEventListener("touchstart", () => { side.ondragging = true });
+        side.addEventListener("touchmove", () => { if (side.ondragging) { sidefunc(); } });
+        side.addEventListener("touchend", () => { side.ondragging = false; });
+        side.addEventListener("mousedown", () => { side.ondragging = true });
+        side.addEventListener("mousemove", () => { if (side.ondragging) { sidefunc(); } });
+        document.body.addEventListener("mouseup", () => { side.ondragging = false; });
+        left_audio.onplay = function () { this.currentTime = 8.75; };
+        right_audio.onplay = function () { this.currentTime = 5.50; };
+        left_audio.onloadeddata = function () { this.currentTime = 8.75; console.log(this.currentTime); };
+        right_audio.onloadeddata = function () { this.currentTime = 5.50; console.log(this.currentTime); };
+        left_audio.currentTime = 8.75;
+        right_audio.currentTime = 5.50;
+        /* left_audio.oncanplay=function(){  this.currentTime=8.75;  };  right_audio.oncanplay=function(){  this.currentTime=5.50; }; */
+        var gthis0 = this || window;
+        gthis0['starting_funcs'] = [
+            () => {
+                if (!(window['left_audio'] instanceof HTMLElement)) {
+                    window['left_audio'] = document.querySelector('.left_aud');
+                } if (!(window['right_audio'] instanceof HTMLElement)) {
+                    window['right_audio'] = document.querySelector('.right_aud');
+                }
+            },
+            () => {
+                left_audio.currentTime = 8.75;
+                right_audio.currentTime = 5.50;
+            }
+        ];
+        var starting_funcs = [
+            () => {
+                if (!(window['left_audio'] instanceof HTMLElement)) {
+                    window['left_audio'] = document.querySelector('.left_aud');
+                }
+                if (!(window['right_audio'] instanceof HTMLElement)) {
+                    window['right_audio'] = document.querySelector('.right_aud');
+                }
+            },
+            (gthisparam) => {
+                if (!(gthisparam['left_audio'] instanceof HTMLElement)) {
+                    gthisparam['left_audio'] = left_audio;
+                    console.log(`set global variable 'left_audio' again`);
+                };
+                if (!(gthisparam['right_audio'] instanceof HTMLElement)) {
+                    gthisparam['right_audio'] = right_audio;
+                    console.log(`set global variable 'right_audio' again`);
+                };
+                gthisparam['left_audio'].currentTime = 8.75;
+                gthisparam['right_audio'].currentTime = 5.50;
+                console.log(gthisparam['left_audio'].currentTime);
+                gthisparam['left_audio']?.paused ? gthisparam['left_audio']?.play() : {};
+                gthisparam['right_audio']?.paused ? gthisparam['right_audio']?.play() : {};
+            }
+        ];
+        document.addEventListener("DOMContentLoaded", (ev) => {
+            left_audio.currentTime = 8.75;
+            right_audio.currentTime = 5.50;
+            var side_before = getComputedStyle(side, "::before");
+            var side_before = getComputedStyle(side, "::before");
+        });
+        var gthis1 = this || window || globalThis;
+        document.addEventListener("DOMContentLoaded", (ev) => {
+            if (gthis1['starting_funcs'] instanceof Array) {
+                gthis1['starting_funcs'].forEach((val, idx, arr) => {
+                    if (typeof arr[idx] === "function") {
+                        arr[idx](gthis1);
+                        console.log(idx);
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

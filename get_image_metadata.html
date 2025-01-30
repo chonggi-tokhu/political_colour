@@ -51,7 +51,7 @@
                             var thispre = datali.appendChild(document.createElement("pre"));
                             var thisspan = thispre.appendChild(document.createElement("span"));
                             img_data_obj.img_data_els.push(datali);
-                            thisspan.innerHTML = allMetadata;
+                            thisspan.innerHTML = JSON.stringify(allMetadata);
                             resolve(allMetadata, one_of_myimgs);
                         });
                         img_data_obj.imgs.push(one_of_myimgs);
@@ -77,7 +77,7 @@
                         var thispre = datali.appendChild(document.createElement("pre"));
                         var thisspan = thispre.appendChild(document.createElement("span"));
                         img_data_obj.img_data_els.push(datali);
-                        thisspan.innerHTML = allMetadata;
+                        thisspan.innerHTML = JSON.stringify(allMetadata);
                         resolve(allMetadata);
                     });
                 }).then(cbfunc);
