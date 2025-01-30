@@ -1219,18 +1219,18 @@
                 createdPicker.els.palette.el.style.background = `linear-gradient(to left, ${startingcolour + 'ff'},#ffffff00)`;
                 thisobj.selectedColourNow = startingcolour;
                 thisobj.dragging = false;
-                scrollbtn.style.top = `calc(${ev.clientY}px - 3em)`;
+                scrollbtn.style.top = `calc(${ev.clientY}px - ${thisobj.top}px)`;
             });
             createdPicker.els.scrollbar?.els.scroll.el.addEventListener("mousemove", function (ev) {
                 if (thisobj.dragging === true) {
                     //console.log(ev.y);
                     createdPicker.els.scrollbar.els.scroll.el.style.position = 'relative';
-                    scrollbtn.style.top = `calc(${ev.clientY}px - 3em)`;
+                    scrollbtn.style.top = `calc(${ev.clientY}px - ${thisobj.top}px)`;
                 }
             });
             scrollbar?.addEventListener("click", function (ev) {
                 if (ev.clientX > paletteEl.scrollLeft) {
-                    scrollbtn.style.top = `calc(${ev.clientY}px - 3em)`;
+                    scrollbtn.style.top = `calc(${ev.clientY}px - ${thisobj.top}px)`;
                     var gotColour = thisobj.getColourOnPositionOfScroll(createdPicker.els.scroll2, ev);
                     startingcolour = gotColour;
                     createdPicker.els.palette.els.newPaletteInner.el.style.background = `linear-gradient(to bottom, ${startingcolour + '00'},#000000ff)`;
@@ -1258,8 +1258,8 @@
             paletteEl.addEventListener("mousedown", function (ev) {
                 thisobj.draggingonpalette = true;
                 ondragging = true;
-                palettePointerEl.style.left = `calc(${ev.clientX - paletteEl.scrollLeft - thisobj.left}px)`;
-                palettePointerEl.style.top = `calc(${ev.clientY - (paletteEl.scrollHeight - window.scrollY) - thisobj.top}px)`;
+                palettePointerEl.style.left = `calc(${ev.clientX - paletteEl.scrollLeft}px - ${thisobj.left}px)`;
+                palettePointerEl.style.top = `calc(${ev.clientY - (paletteEl.scrollHeight - window.scrollY)}px - ${thisobj.top}px)`;
                 dragX = ev.clientX;
                 dragY = ev.clientY;
             });
@@ -1267,24 +1267,24 @@
             paletteEl.addEventListener("touchstart", function (ev) {
                 thisobj.draggingonpalette = true;
                 ondragging = true;
-                palettePointerEl.style.left = `calc(${ev.touches[0].clientX - paletteEl.scrollLeft - thisobj.left}px)`;
-                palettePointerEl.style.top = `calc(${ev.touches[0].clientY - (paletteEl.scrollHeight - window.scrollY) - thisobj.top}px)`;
+                palettePointerEl.style.left = `calc(${ev.touches[0].clientX - paletteEl.scrollLeft}px - ${thisobj.left}px)`;
+                palettePointerEl.style.top = `calc(${ev.touches[0].clientY - (paletteEl.scrollHeight - window.scrollY)}px - ${thisobj.top}px)`;
                 dragX = ev.touches[0].clientX;
                 dragY = ev.touches[0].clientY;
             });
             palettePointerEl.addEventListener("dragstart", function (ev) {
                 thisobj.draggingonpalette = true;
                 ondragging = true;
-                //palettePointerEl.style.left = `calc(${ev.clientX - paletteEl.scrollLeft}px - 0.5em)`;
+                //palettePointerEl.style.left = `calc(${ev.clientX - paletteEl.scrollLeft}px - ${thisobj.left}px)`;
                 //palettePointerEl.style.top = `calc(${ev.clientY - ( paletteEl.scrollHeight)}px - 1em)`;
             });
             paletteEl.addEventListener("mousemove", function (ev) {
                 if (thisobj.draggingonpalette || ondragging) {
                     thisobj.hasdragged = true;
-                    palettePointerEl.style.left = `calc(${ev.clientX - paletteEl.scrollLeft - thisobj.left}px)`;
+                    palettePointerEl.style.left = `calc(${ev.clientX - paletteEl.scrollLeft}px - ${thisobj.left}px)`;
                     console.log(thisobj.left);
                     //console.log(createdPicker.el.parentElement.scrollTop);
-                    palettePointerEl.style.top = `calc(${ev.clientY - (paletteEl.scrollHeight - window.scrollY) - thisobj.top}px)`;
+                    palettePointerEl.style.top = `calc(${ev.clientY - (paletteEl.scrollHeight - window.scrollY)}px - ${thisobj.top}px)`;
                     console.log(thisobj.top);
                     //ondragging = true;
                     //thisobj.pickedColour = "#" + thisobj.getColourOnPositionOfPalette(paletteEl, ev);
@@ -1295,9 +1295,9 @@
             paletteEl.addEventListener("touchmove", function (ev) {
                 if (thisobj.draggingonpalette || ondragging) {
                     thisobj.hasdragged = true;
-                    palettePointerEl.style.left = `calc(${ev.touches[0].clientX - paletteEl.scrollLeft - thisobj.left}px)`;
+                    palettePointerEl.style.left = `calc(${ev.touches[0].clientX - paletteEl.scrollLeft}px - ${thisobj.left}px)`;
                     //console.log(createdPicker.el.parentElement.scrollTop);
-                    palettePointerEl.style.top = `calc(${ev.touches[0].clientY - (paletteEl.scrollHeight - window.scrollY) - thisobj.top}px)`;
+                    palettePointerEl.style.top = `calc(${ev.touches[0].clientY - (paletteEl.scrollHeight - window.scrollY)}px - ${thisobj.top}px)`;
                     //ondragging = true;
                     //thisobj.pickedColour = "#" + thisobj.getColourOnPositionOfPalette(paletteEl, ev);
                     ev.preventDefault();
@@ -1307,7 +1307,7 @@
             paletteEl.addEventListener("dragover", function (ev) {
                 if (thisobj.draggingonpalette || ondragging) {
                     thisobj.hasdragged = true;
-                    palettePointerEl.style.left = `calc(${(dragX + ev.movementX) - paletteEl.scrollLeft}px - 0.5em)`;
+                    palettePointerEl.style.left = `calc(${(dragX + ev.movementX) - paletteEl.scrollLeft}px - ${thisobj.left}px)`;
                     palettePointerEl.style.top = `calc(${(dragY + ev.movementY) - ( paletteEl.scrollHeight)}px - 1em)`;
                     //ondragging = true;
                     //thisobj.pickedColour = "#" + thisobj.getColourOnPositionOfPalette(paletteEl, ev);
@@ -1336,8 +1336,8 @@
                     thisobj.mycbfunc(demobg);
                 }, { bgwhite: true });
                 palettePointerEl.style.setProperty('--picked-colour', colour_a);
-                palettePointerEl.style.left = `calc(${ev.clientX - paletteEl.scrollLeft - thisobj.left}px)`;
-                palettePointerEl.style.top = `calc(${ev.clientY - (paletteEl.scrollHeight - window.scrollY) - thisobj.top}px)`;
+                palettePointerEl.style.left = `calc(${ev.clientX - paletteEl.scrollLeft}px - ${thisobj.left}px)`;
+                palettePointerEl.style.top = `calc(${ev.clientY - (paletteEl.scrollHeight - window.scrollY)}px - ${thisobj.top}px)`;
             });
             paletteEl.addEventListener("touchend", function (ev) {
                 ondragging = false;
@@ -1359,8 +1359,8 @@
                     thisobj.mycbfunc(demobg);
                 }, { bgwhite: true });
                 palettePointerEl.style.setProperty('--picked-colour', colour_a);
-                palettePointerEl.style.left = `calc(${ev.touches[0].clientX - paletteEl.scrollLeft - thisobj.left}px)`;
-                palettePointerEl.style.top = `calc(${ev.touches[0].clientY - (paletteEl.scrollHeight - window.scrollY) - thisobj.top}px)`;
+                palettePointerEl.style.left = `calc(${ev.touches[0].clientX - paletteEl.scrollLeft}px - ${thisobj.left}px)`;
+                palettePointerEl.style.top = `calc(${ev.touches[0].clientY - (paletteEl.scrollHeight - window.scrollY)}px - ${thisobj.top}px)`;
             });
             paletteEl.addEventListener("click", function (ev) {
                 var colour_a = '#ffffff';
@@ -1374,8 +1374,8 @@
                     thisobj.mycbfunc(demobg);
                 }, { bgwhite: true });
                 palettePointerEl.style.setProperty('--picked-colour', colour_a);
-                palettePointerEl.style.left = `calc(${ev.clientX - paletteEl.scrollLeft - thisobj.left}px)`;
-                palettePointerEl.style.top = `calc(${ev.clientY - (paletteEl.scrollHeight - window.scrollY) - thisobj.top}px)`;
+                palettePointerEl.style.left = `calc(${ev.clientX - paletteEl.scrollLeft}px - ${thisobj.left}px)`;
+                palettePointerEl.style.top = `calc(${ev.clientY - (paletteEl.scrollHeight - window.scrollY)}px - ${thisobj.top}px)`;
             });
             paletteEl.style.background = `linear-gradient(to left, ${this.selectedColourNow + 'ff'},#ffffff00)`;
             createdPicker.els.palette.els.newPaletteInner.el.style.background = `linear-gradient(to bottom, ${this.selectedColourNow + '00'},#000000ff)`;
@@ -1393,8 +1393,8 @@
                         thisobj.mycbfunc(demobg);
                     }, { bgwhite: true });
                     palettePointerEl.style.setProperty('--picked-colour', colour_a);
-                    palettePointerEl.style.left = `calc(${ev.clientX - paletteEl.scrollLeft - thisobj.left}px)`;
-                    palettePointerEl.style.top = `calc(${ev.clientY - (paletteEl.scrollHeight - window.scrollY - thisobj.top)}px)`;
+                    palettePointerEl.style.left = `calc(${ev.clientX - paletteEl.scrollLeft}px - ${thisobj.left}px)`;
+                    palettePointerEl.style.top = `calc(${ev.clientY - (paletteEl.scrollHeight - window.scrollY)}px - ${thisobj.top}px)`;
                 })({ clientX: paletteEl.scrollLeft + (coordx * paletteEl.scrollHeight), clientY: (coordy * paletteEl.scrollHeight) });
             }
         }
