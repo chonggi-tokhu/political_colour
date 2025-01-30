@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>정치병자</title>
     <style id="mystyle">
-        .political_colour input[type="range"]::-webkit-slider-thumb {
+        .political_colour input[type="range"]:not(colourpicker *)::-webkit-slider-thumb {
             color: rgb(5, 255, 200);
             background: rgb(5, 255, 200);
         }
@@ -16,12 +16,12 @@
             --range-thumb-bg: rgb(5, 255, 200);
         }
 
-        .political_colour input[type="range" i],
-        .political_colour input[type="range" i] * {
+        .political_colour input[type="range"]:not(colourpicker *),
+        .political_colour input[type="range"]:not(colourpicker *) * {
             -webkit-appearance: none;
         }
 
-        .political_colour input[type="range"]::before {
+        .political_colour input[type="range"]:not(colourpicker *)::before {
             content: '左';
             background: darkred;
             border-radius: 50%;
@@ -31,7 +31,7 @@
             float: left;
         }
 
-        .political_colour input[type="range"]::after {
+        .political_colour input[type="range"]:not(colourpicker *)::after {
             content: '右';
             background: darkblue;
             border-radius: 50%;
@@ -41,7 +41,7 @@
             float: left;
         }
 
-        .political_colour input[type="range" i]::-webkit-slider-thumb {
+        .political_colour input[type="range" i]:not(colourpicker *)::-webkit-slider-thumb {
             width: 0.85em;
             height: 0.85em !important;
             border-radius: 50% !important;
@@ -55,7 +55,7 @@
             color: rgb(5, 255, 200);
         }
 
-        .political_colour input[type="range"]::-webkit-slider-thumb {
+        .political_colour input[type="range"]:not(colourpicker *)::-webkit-slider-thumb {
             width: 0.85em;
             height: 0.85em !important;
             border-radius: 50% !important;
@@ -70,13 +70,13 @@
 
         .political_colour input[type="range"
 
-        i]::-webkit-slider-runnable-track {
+        i]:not(colourpicker *)::-webkit-slider-runnable-track {
             background: linear-gradient(to right, darkred, red, grey, blue, darkblue);
             height: 0.75em;
             box-shadow: 1px 1px 1px 1px #404040 inset, -1px 1px 1px 1px #404040 inset, 1px -1px 1px 1px #404040 inset, -1px -1px 1px 1px #404040 inset;
         }
 
-        .political_colour input[type="range"]::-moz-range-thumb {
+        .political_colour input[type="range"]:not(colourpicker *)::-moz-range-thumb {
             width: 1.5em;
             height: 1.5em;
             border-radius: 50%;
@@ -153,11 +153,12 @@
 
         colourpicker {
             background: #fff;
+            position: relative;
         }
 
-        colourpicker .picker-inner {
+        /* colourpicker .picker-inner {
             display: flex;
-        }
+        } */
 
         colourpicker .picker-inner .palette {
             width: 20em;
@@ -209,6 +210,12 @@
             display: inline-block;
             font-size: 1em;
         }
+
+        colourpicker input[type="range"]::-webkit-slider-runnable-track {
+            height: 3em;
+            width: 100%;
+            background: linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff);
+        }
     </style>
     <script src="./files/js/decs.js"></script>
     <script src="./files/js/colour_picker.js"></script>
@@ -234,11 +241,11 @@
                     <td>
                         <a href="javascript:left_audio.paused?left_audio.play():left_audio.pause();">재생</a>
                     </td>
-                    <td><input style="width:16rem;height:1em;" colour-style="
+                    <td><!-- <input style="width:16rem;height:1em;" colour-style="
                 --track-bgcolour:linear-gradient(to right,darkred,red,grey,blue,darkblue);
-                --thumb-bgcolour:rgb(0,255,200);" unit-width="1.5" type="range" min="-50" max="50" class="side" /></td>
+                --thumb-bgcolour:rgb(0,255,200);" unit-width="1.5" type="range" min="-50" max="50" class="side" /></td> -->
+                        <colourpicker class="side"></colourpicker>
                     <td>
-
                         <a href="javascript:right_audio.paused?right_audio.play():right_audio.pause();" value="0">재생</a>
                     </td>
                 </tr>
@@ -247,25 +254,32 @@
         </div>
     </div>
     <script>
-        var side = document.querySelector(".side");
+        var newcolourpicker = null;
+        (function () {
+            if (!window['CGRColourPicker'] || window['CGRColourPicker'] === null) {
+                return;
+            }
+            newcolourpicker = new CGRColourPicker(document.getElementsByTagName("colourpicker")[0], (demobg) => {
+                document.getElementsByTagName("colourpicker")[0].value = (((demobg[2] / 255) - (demobg[0] / 255)) - 0.5);
+                document.getElementsByTagName("colourpicker")[0].value = document.getElementsByTagName("colourpicker")[0].value > 0.5 ? 0.5 : document.getElementsByTagName("colourpicker")[0].value < -0.5 ? -0.5 : document.getElementsByTagName("colourpicker")[0].value;
+                console.log(document.getElementsByTagName("colourpicker")[0].value);
+                left_audio.volume = demobg[0] / 255;
+                right_audio.volume = demobg[2] / 255;
+                document.head.querySelector(`style[id="mystyle"]`).textContent = `
+        .political_colour input[type="range"]:not(colourpicker *)::-webkit-slider-thumb {
+            color: rgb(${demobg[0]},${demobg[1]},${demobg[2]});
+            background: rgb(${demobg[0]},${demobg[1]},${demobg[2]});
+        }`;
+                document.querySelector(':root').style.setProperty('--range-thumb-bg', `rgb(${demobg[0]},${demobg[1]},${demobg[2]})`);
+                //getComputedStyle(document.querySelector('.side'), '::-webkit-slider-thumb').color = `rgb(${demobg[0]},${demobg[1]},${demobg[2]}`;
+                //getComputedStyle(document.querySelector('.side'), '::-moz-range-thumb').background = `rgb(${demobg[0]},${demobg[1]},${demobg[2]})`;
+            }, 80, 10);
+            newcolourpicker.setBackGround(0);
+        })()
+        var side = document.querySelector(".side input[type=hidden]");
         var left_audio = document.querySelector('.left_aud');
         var right_audio = document.querySelector('.right_aud');
-        var sidefunc = () => {
-            var side_value = Number(side.value);
-            left_audio.volume = side_value * -1 / 100 + 0.5;
-            var bgimgs = document.querySelectorAll('.background img');
-            bgimgs[0].style.opacity = side_value * -1 / 100 + 0.5;
-            bgimgs[1].style.opacity = side_value / 100 + 0.5;
-            right_audio.volume = side_value / 100 + 0.5;
-        };
-        side.addEventListener("change", sidefunc);
-        side.addEventListener("dragover", sidefunc);
         side.ondragging = false;
-        side.addEventListener("touchstart", () => { side.ondragging = true });
-        side.addEventListener("touchmove", () => { if (side.ondragging) { sidefunc(); } });
-        side.addEventListener("touchend", () => { side.ondragging = false; });
-        side.addEventListener("mousedown", () => { side.ondragging = true });
-        side.addEventListener("mousemove", () => { if (side.ondragging) { sidefunc(); } });
         document.body.addEventListener("mouseup", () => { side.ondragging = false; });
         left_audio.onplay = function () { this.currentTime = 8.75; };
         right_audio.onplay = function () { this.currentTime = 5.50; };
