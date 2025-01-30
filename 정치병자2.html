@@ -259,8 +259,9 @@
                 document.getElementsByTagName("colourpicker")[0].value = (((demobg[2] / 255) - (demobg[0] / 255)) - 0.5);
                 document.getElementsByTagName("colourpicker")[0].value = document.getElementsByTagName("colourpicker")[0].value > 0.5 ? 0.5 : document.getElementsByTagName("colourpicker")[0].value < -0.5 ? -0.5 : document.getElementsByTagName("colourpicker")[0].value;
                 console.log(document.getElementsByTagName("colourpicker")[0].value);
-                left_audio.volume = demobg[0] / 255;
-                right_audio.volume = demobg[2] / 255;
+
+                left_audio.volume = demobg[0] / 255 > 1 ? 1 : demobg[0] / 255 < 0 ? 0 : demobg[0] / 255;
+                right_audio.volume = demobg[2] / 255 > 1 ? 1 : demobg[2] / 255 < 0 ? 0 : demobg[2] / 255;
                 document.head.querySelector(`style[id="mystyle"]`).textContent = `
         .political_colour input[type="range"]:not(colourpicker *)::-webkit-slider-thumb {
             color: rgb(${demobg[0]},${demobg[1]},${demobg[2]});
