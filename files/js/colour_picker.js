@@ -1245,13 +1245,21 @@
                 createdPicker.els.palette.el.style.background = `linear-gradient(to left, ${startingcolour + 'ff'},#ffffff00)`;
                 thisobj.selectedColourNow = startingcolour;
             });
-            scroll2.addEventListener("drag", (ev) => {
+            
+            scroll2.addEventListener("input", (ev) => {
                 var gotColour = thisobj.getColourOnPositionOfScroll(scroll2, ev);
                 startingcolour = gotColour;
                 createdPicker.els.palette.els.newPaletteInner.el.style.background = `linear-gradient(to bottom, ${startingcolour + '00'},#000000ff)`;
                 createdPicker.els.palette.el.style.background = `linear-gradient(to left, ${startingcolour + 'ff'},#ffffff00)`;
                 thisobj.selectedColourNow = startingcolour;
             });
+            /*scroll2.addEventListener("drag", (ev) => {
+                var gotColour = thisobj.getColourOnPositionOfScroll(scroll2, ev);
+                startingcolour = gotColour;
+                createdPicker.els.palette.els.newPaletteInner.el.style.background = `linear-gradient(to bottom, ${startingcolour + '00'},#000000ff)`;
+                createdPicker.els.palette.el.style.background = `linear-gradient(to left, ${startingcolour + 'ff'},#ffffff00)`;
+                thisobj.selectedColourNow = startingcolour;
+            });*/
             var ondragging = false;
             var dragX = 0;
             var dragY = 0;
