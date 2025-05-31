@@ -849,12 +849,12 @@
                     var blue = hextodec('ff');
                     colourtopicked['r'] = 0;
                     colourtopicked['g'] = 255;
-                    colourtopicked['b'] = blue * ((((el.max / 6) - (colour1 - (el.max / 6 * 2))) / (el.max / 6)));
+                    colourtopicked['b'] = blue * ((((el.max) - (colour1 - (el.max / 6 * 2))) / (el.max / 6)));
                     //console.log('between #00ff00 and #00ffff');
                 } else if (colour1 <= el.max / 6 * 4) {
                     var blue = hextodec('ff');
                     colourtopicked['r'] = 0;
-                    colourtopicked['g'] = blue * ((((el.max / 6)-(colour1 - (el.max / 6 * 3))) / (el.max / 6)));
+                    colourtopicked['g'] = blue * ((((el.max)-(colour1 - (el.max / 6 * 3))) / (el.max / 6)));
                     colourtopicked['b'] = 255;
                     //console.log('between #00ffff and #0000ff');
                 } else if (colour1 <= el.max / 6 * 5) {
