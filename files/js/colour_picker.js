@@ -801,7 +801,7 @@
                     //console.log('between #ff0000 and #ffff00');
                 } else if (colour1 <= el.max / 6 * 2) {
                     var red = hextodec('ff')
-                    colourtopicked['r'] = red * (((el.max / 6) - ((colour1) - (el.max / 6 * 1))) / (el.max / 6));
+                    colourtopicked['r'] = red * (((el.max / 6) - (colour1 - (el.max / 6 * 1))) / (el.max / 6));
                     colourtopicked['g'] = 255;
                     colourtopicked['b'] = 0;
                     //console.log('between #ffff00 and #00ff00');
@@ -814,12 +814,12 @@
                 } else if (colour1 <= el.max / 6 * 4) {
                     var blue = hextodec('ff');
                     colourtopicked['r'] = 0;
-                    colourtopicked['g'] = blue * ((((colour1 - (el.max / 6 * 3))) / (el.max / 6)));
+                    colourtopicked['g'] = blue * ((((el.max / 6) - (colour1 - (el.max / 6 * 3))) / (el.max / 6)));
                     colourtopicked['b'] = 255;
                     //console.log('between #00ffff and #0000ff');
                 } else if (colour1 <= el.max / 6 * 5) {
                     var blue = hextodec('ff');
-                    colourtopicked['r'] = blue * ((el.max / 6) - (colour1 - (el.max / 6 * 4)) / (el.max / 6));
+                    colourtopicked['r'] = blue * (((el.max / 6) - (colour1 - (el.max / 6 * 4))) / (el.max / 6));
                     colourtopicked['g'] = 0;
                     colourtopicked['b'] = 255;
                     //console.log('between #0000ff and #ff00ff');
