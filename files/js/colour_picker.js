@@ -380,7 +380,7 @@
             var newScroll2pr = document.createElement("input");
             newScroll2pr.type = "range";
             newScroll2pr.min = "0";
-            newScroll2pr.max = "200";
+            newScroll2pr.max = "300";
             newScroll2pr.value = "0";
             var newHiddenpr = document.createElement("input");
             newHiddenpr.type = "hidden";
