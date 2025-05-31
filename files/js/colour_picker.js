@@ -1199,7 +1199,7 @@
                 startingcolour = selected;
                 this.selectedColourNow = selected;
             }
-            createdPicker.els.scrollbar?.els.scroll.el.addEventListener("mousedown", function (ev) {
+            /*createdPicker.els.scrollbar?.els.scroll.el.addEventListener("mousedown", function (ev) {
                 thisobj.dragging = true;
             });
             createdPicker.els.scrollbar?.el.addEventListener("mouseup", function (ev) {
@@ -1237,8 +1237,18 @@
                     createdPicker.els.palette.el.style.background = `linear-gradient(to left, ${startingcolour + 'ff'},#ffffff00)`;
                     thisobj.selectedColourNow = startingcolour;
                 }
+            });*/
+            
+            scroll2.addEventListener("input", (ev) => {
+                console.log(scroll2.value);
+                var gotColour = thisobj.getColourOnPositionOfScroll(scroll2, ev);
+                startingcolour = gotColour;
+                createdPicker.els.palette.els.newPaletteInner.el.style.background = `linear-gradient(to bottom, ${startingcolour + '00'},#000000ff)`;
+                createdPicker.els.palette.el.style.background = `linear-gradient(to left, ${startingcolour + 'ff'},#ffffff00)`;
+                thisobj.selectedColourNow = startingcolour;
             });
             scroll2.addEventListener("change", (ev) => {
+                console.log(scroll2.value);
                 var gotColour = thisobj.getColourOnPositionOfScroll(scroll2, ev);
                 startingcolour = gotColour;
                 createdPicker.els.palette.els.newPaletteInner.el.style.background = `linear-gradient(to bottom, ${startingcolour + '00'},#000000ff)`;
@@ -1246,13 +1256,6 @@
                 thisobj.selectedColourNow = startingcolour;
             });
             
-            scroll2.addEventListener("input", (ev) => {
-                var gotColour = thisobj.getColourOnPositionOfScroll(scroll2, ev);
-                startingcolour = gotColour;
-                createdPicker.els.palette.els.newPaletteInner.el.style.background = `linear-gradient(to bottom, ${startingcolour + '00'},#000000ff)`;
-                createdPicker.els.palette.el.style.background = `linear-gradient(to left, ${startingcolour + 'ff'},#ffffff00)`;
-                thisobj.selectedColourNow = startingcolour;
-            });
             /*scroll2.addEventListener("drag", (ev) => {
                 var gotColour = thisobj.getColourOnPositionOfScroll(scroll2, ev);
                 startingcolour = gotColour;
