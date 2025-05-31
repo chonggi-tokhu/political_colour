@@ -229,7 +229,7 @@
                 onclick=" left_audio.currentTime=8.75; right_audio.currentTime=5.50; ">노래 각각 시작</a>
             <br>
             <audio autoplay="autoplay" onplay="this.currentTime=8.75;" src="./files/audio/The_Internationale_Russian_x2.25.mp3" style="display:none;"
-                class="left_aud audio" onloadeddata="this.currentTime=0.50;" loop="loop" volume="0.8"></audio>
+                class="left_aud audio" onloadeddata="this.currentTime=0.50;" loop="loop"></audio>
             <audio autoplay="autoplay" onplay="this.currentTime=5.50;" src="./files/audio/멸공.mp3" style="display:none;"
                 class="right_aud audio" onloadeddata="this.currentTime=5.50;" loop="loop"></audio>
             <table>
@@ -251,6 +251,8 @@
     </div>
     <script>
         var newcolourpicker = null;
+        var leftvolume=0.8;
+        var rightvolume=1.0;
         (function () {
             if (!window['CGRColourPicker'] || window['CGRColourPicker'] === null) {
                 return;
@@ -261,7 +263,9 @@
                 console.log(document.getElementsByTagName("colourpicker")[0].value);
 
                 left_audio.volume = demobg[0] / 255 > 1 ? 1 : demobg[0] / 255 < 0 ? 0 : demobg[0] / 255;
+                left_audio.volume=left_audio.volume * leftvolume;
                 right_audio.volume = demobg[2] / 255 > 1 ? 1 : demobg[2] / 255 < 0 ? 0 : demobg[2] / 255;
+                right_audio.volume=right_audio.volume*rightvolume;
                 document.head.querySelector(`style[id="mystyle"]`).textContent = `
         .political_colour input[type="range"]:not(colourpicker *)::-webkit-slider-thumb {
             color: rgb(${demobg[0]},${demobg[1]},${demobg[2]});
